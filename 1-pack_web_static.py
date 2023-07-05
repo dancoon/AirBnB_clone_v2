@@ -13,5 +13,5 @@ def do_pack():
     try:
         local("tar -cvzf {} web_static".format(path))
         return path
-    except:
+    except Exception:
         return None
