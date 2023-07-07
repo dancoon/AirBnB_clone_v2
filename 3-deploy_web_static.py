@@ -3,19 +3,21 @@
 using the function deploy."""
 from fabric.api import *
 from os import path
+from datetime import datetime
+from fabric.decorators import runs_once
 env.hosts = ['54.237.92.118', '100.25.17.250']
 
 
+@runs_once
 def do_pack():
-    """Function to compress"""
-    try:
-        local("mkdir -p versions")
-        name_file = "versions/web_static_" + datetime.now().strftime(
-            "%Y%m%d%H%M%S") + ".tgz"
-        local("tar -cvzf {} web_static".format(name_file))
-        return name_file
-    except Exception:
+    """Function to generate .tgz archive from web_static folder."""
+    local("mkdir -p versions")
+    date = datetime.now().strftime("%Y%m%d%H%M%S")
+    path = "versions/web_static_{}.tgz".format(date)
+    result = local("tar -cvzf {} web_static".format(path))
+    if result.failed:
         return None
+    return path
 
 
 def do_deploy(archive_path):
