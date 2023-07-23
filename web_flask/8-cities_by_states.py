@@ -6,7 +6,7 @@ from models import storage
 app = Flask(__name__)
 
 
-@app.route('cities_by_states', strict_slashes=False)
+@app.route('/cities_by_states', strict_slashes=False)
 def cities_by_states():
     """Returns a string at the /cities_by_states route"""
     states = storage.all("State").values()
